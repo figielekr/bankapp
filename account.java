@@ -74,14 +74,45 @@ public class account {
         System.out.println();
         menu();
     }
+    static void moneyTransfer(String nameFrom,String nameTo, double amountToTransfer){
+        boolean isFound = false;
+        for (int i = 0; i< numOfAccounts; i++){
+            if  (nameFrom.equals(resultName.get(i))){
+                double xFrom = resultBalance.get(i);
+                for (int j = 0; j< numOfAccounts; j++){
+                    if (nameTo.equals(resultName.get(j))){
+                        double xTo = resultBalance.get(j);
+                        if (amountToTransfer > xFrom){
+                            System.out.println("Na koncie nie ma wystarczającej ilości środków.");
+                        }
+                        else if (amountToTransfer < 0){
+                            System.out.println("Wprowadziłeś niepoprawne dane.");
+                        }
+                        else {
+                            resultBalance.set(i, xFrom-amountToTransfer);
+                            resultBalance.set(j, xTo+amountToTransfer);
+                        }
+                        isFound = true;
+                    }
+                }
+
+            }
+        }
+        if (!isFound){
+            System.out.println("Wprowadzono niepoprawne nazwy klientów.");
+        }
+        System.out.println();
+        menu();
+    }
 
     static void menu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1. Utworzenie nowego konta.");
         System.out.println("2. Wpłacanie pieniędzy.");
         System.out.println("3. Wypłacanie pieniędzy.");
-        System.out.println("4. Informacje o koncie.");
-        System.out.println("5. Wyjście z menu.");
+        System.out.println("4. Wykonaj przelew.");
+        System.out.println("5. Informacje o koncie.");
+        System.out.println("6. Wyjście z menu.");
         int x = scanner.nextInt();
 
             if (x==1) {
@@ -109,12 +140,22 @@ public class account {
                 moneyWithdraw(name,amountToWithdraw);
             }
             else if (x==4){
+                System.out.println("Podaj imię z którego chcesz przelać pieniądze: ");
+                String nameFrom = scanner.next();
+                System.out.print("Przelewam pieniądze na konto: ");
+                String nameTo = scanner.next();
+                System.out.println("Kwota jaką chcę przelać: ");
+                double amountToTransfer = scanner.nextDouble();
+                System.out.println();
+                moneyTransfer(nameFrom, nameTo,amountToTransfer);
+            }
+            else if (x==5){
                 System.out.print("Podaj imię: ");
                 String infoName = scanner.next();
                 accountInformation(infoName);
             }
 
-            else if (x==5) {
+            else if (x==6) {
                 System.out.println("System shutting down...");
 
             }
