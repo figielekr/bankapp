@@ -95,7 +95,6 @@ public class account {
                         isFound = true;
                     }
                 }
-
             }
         }
         if (!isFound){
@@ -104,7 +103,6 @@ public class account {
         System.out.println();
         menu();
     }
-
     static void menu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1. Utworzenie nowego konta.");
@@ -154,12 +152,10 @@ public class account {
                 String infoName = scanner.next();
                 accountInformation(infoName);
             }
-
             else if (x==6) {
                 System.out.println("System shutting down...");
 
             }
             else throw new IllegalStateException("Zły wybór, spróbuj ponownie.");
     }
-
 }
