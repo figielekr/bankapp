@@ -20,10 +20,8 @@ public class account {
         menu();
     }
     static void accountInformation(String name){
-        //System.out.println(numOfAccounts+ " <<- liczba kont");
         boolean isFound = false;
         for (int i = 0; i< numOfAccounts; i++){
-            //System.out.println("szuikany uzytkownik"+x);
             if  (name.equals(resultName.get(i))){
                 System.out.println("Imie uzytkownika: "+resultName.get(i));
                 System.out.println("Stan konta: "+resultBalance.get(i));
@@ -37,12 +35,53 @@ public class account {
         System.out.println();
         menu();
     }
+    static void moneyDeposit(String name, double amountToDeposit){
+        boolean isFound = false;
+        for (int i = 0; i< numOfAccounts; i++){
+            if  (name.equals(resultName.get(i))){
+                double x = resultBalance.get(i);
+                resultBalance.set(i, x+amountToDeposit);
+                isFound = true;
+            }
+        }
+        if (!isFound){
+            System.out.println("Nie ma takiego klienta.");
+        }
+        System.out.println();
+        menu();
+    }
+    static void moneyWithdraw(String name, double amountToWithdraw){
+        boolean isFound = false;
+        for (int i = 0; i< numOfAccounts; i++){
+            if  (name.equals(resultName.get(i))){
+                double x = resultBalance.get(i);
+                if (amountToWithdraw > x){
+                    System.out.println("Na koncie nie ma wystarczającej ilości środków.");
+                }
+                else if (amountToWithdraw < 0){
+                    System.out.println("Wprowadziłeś niepoprawne dane.");
+                }
+                else {
+                    resultBalance.set(i, x-amountToWithdraw);
+                    System.out.println("Wypłacono: " + amountToWithdraw + ", na koncie pozostało: " + resultBalance.get(i));
+                }
+                isFound = true;
+            }
+        }
+        if (!isFound){
+            System.out.println("Nie ma takiego klienta.");
+        }
+        System.out.println();
+        menu();
+    }
 
     static void menu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1. Utworzenie nowego konta.");
-        System.out.println("2. Informacje o koncie.");
-        System.out.println("3. Wyjście z menu.");
+        System.out.println("2. Wpłacanie pieniędzy.");
+        System.out.println("3. Wypłacanie pieniędzy.");
+        System.out.println("4. Informacje o koncie.");
+        System.out.println("5. Wyjście z menu.");
         int x = scanner.nextInt();
 
             if (x==1) {
@@ -54,12 +93,28 @@ public class account {
                 newAccount(newName, newStartingMoney);
             }
             else if (x==2){
+                System.out.println("Podaj imię: ");
+                String name = scanner.next();
+                System.out.print("Wplacam: ");
+                double amountToDeposit = scanner.nextDouble();
+                System.out.println();
+                moneyDeposit(name,amountToDeposit);
+            }
+            else if (x==3){
+                System.out.println("Podaj imię: ");
+                String name = scanner.next();
+                System.out.print("Wyplacam: ");
+                double amountToWithdraw = scanner.nextDouble();
+                System.out.println();
+                moneyWithdraw(name,amountToWithdraw);
+            }
+            else if (x==4){
                 System.out.print("Podaj imię: ");
                 String infoName = scanner.next();
                 accountInformation(infoName);
             }
 
-            else if (x==3) {
+            else if (x==5) {
                 System.out.println("System shutting down...");
 
             }
